@@ -1,70 +1,68 @@
-1. Matrix Diagonal Sum :-
+1. Move Zeroes :-
 
- 
- int diagonalSum(int** mat, int matSize, int* matColSize) {
-    int total=0;
-    for (int i=0;i<matSize;i++) {
-        total+=mat[i][i];
-    }
-    for (int i=0;i<matSize;i++) {
-        if (i!=matSize-i-1) {
-            total+=mat[i][matSize-i-1];
+void moveZeroes(int* nums, int numsSize) {
+    int pos = 0;
+    for (int i=0;i<numsSize;i++) {
+        if (nums[i]!=0) {
+            int temp=nums[i];
+            nums[i]=nums[pos];
+            nums[pos]=temp;
+            pos++;
         }
     }
-    return total;
+}
+
+2. Squares of a Sorted Array :=-
+
+int* sortedSquares(int* nums, int numsSize, int* returnSize) {
+    int* result_array = (int*)malloc(numsSize * sizeof(int));
+    int i=0;
+    int j=numsSize-1;
+    int k=numsSize-1;
+    while (i<=j) {
+        int left=nums[i]*nums[i];
+        int right=nums[j]*nums[j];
+        if (left>right) {
+            result_array[k]=left;
+            i++;
+        } else {
+            result_array[k]=right;
+            j--;
+        }
+        k--;
+    }
+    *returnSize = numsSize;
+    return result_array;
 }
 
 
-
-2. Reshape the Matrix :-
-
-int** matrixReshape(int** mat, int m, int* n,int r, int c,int* returnSize,int** returnColumnSizes) {
-
-    if (m*n[0]!=r*c) {
-        *returnSize =m;
-        *returnColumnSizes =n;
-        return mat;
+3. Container With Most Water :-
+int maxArea(int* height, int heightSize) {
+    int left=0;
+    int right=heightSize - 1;
+    int answer=0;
+    while (left<right) {
+        int width=right-left;
+        int h;
+        if (height[left]<height[right]) {
+            h=height[left];
+        } 
+        else {
+            h=height[right];
+        }
+        int area=width*h;
+        if (area>answer) {
+            answer=area;
+        }
+        if (height[left]<height[right]) {
+            left++;
+        }
+        else {
+            right--;
+        }
     }
-    int** ans = malloc(r * sizeof(int*));
-    *returnColumnSizes = malloc(r * sizeof(int));
-    for (int i = 0; i < r; i++) {
-        ans[i] = malloc(c * sizeof(int));
-        (*returnColumnSizes)[i] = c;
-    }
-    for (int i = 0; i < m * n[0]; i++) {
-        ans[i / c][i % c] = mat[i / n[0]][i % n[0]];
-    }
-    *returnSize = r;
-    return ans;
+    return answer;
 }
 
-
-
-
-3. Spiral Matrix :-
-
-int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize, int* returnSize) {
-    int rows=matrixSize;
-    int cols=matrixColSize[0];
-    int* ans=malloc(rows*cols*sizeof(int));
-    int top=0; int bottom=rows-1; int left=0;
-    int right=cols-1; int index=0;
-    while (top<=bottom && left <= right) {
-        for (int i = left; i <= right; i++)
-            ans[index++] = matrix[top][i];
-        top++;
-        for (int i = top; i <= bottom; i++)
-            ans[index++] = matrix[i][right];
-        right--;
-        for (int i = right; i >= left && top <= bottom; i--)
-            ans[index++] = matrix[bottom][i];
-        bottom--;
-        for (int i = bottom; i >= top && left <= right; i--)
-            ans[index++] = matrix[i][left];
-        left++;
-    }
-    *returnSize = index;
-    return ans;
-}
 
 
